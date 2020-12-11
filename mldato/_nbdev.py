@@ -2,12 +2,24 @@
 
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
-index = {}
+index = {"df": "00_core.ipynb",
+         "explore_df": "00_core.ipynb",
+         "format_features": "00_core.ipynb",
+         "detect_features": "00_core.ipynb",
+         "y": "00_core.ipynb",
+         "x": "00_core.ipynb",
+         "test_percentage": "00_core.ipynb",
+         "valid_percentage": "00_core.ipynb",
+         "time_based_split_feature": "00_core.ipynb",
+         "seed": "00_core.ipynb",
+         "max_uniques": "00_core.ipynb",
+         "n_test": "00_core.ipynb",
+         "n_valid": "00_core.ipynb"}
 
-modules = []
+modules = ["core.py"]
 
-doc_url = "https://ryanfras.github.io/mldato/"
+doc_url = "https://xanderhorn, ryanfras.github.io/mldato/"
 
-git_url = "https://github.com/ryanfras/mldato/tree/master/"
+git_url = "https://github.com/xanderhorn, ryanfras/mldato/tree/master/"
 
 def custom_doc_links(name): return None

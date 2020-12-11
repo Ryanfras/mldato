@@ -11,7 +11,10 @@ entries:
       url: /
     - output: web,pdf
       title: MLDaTo
-      url: /core
+      url: core.html
+    - output: web,pdf
+      title: Title
+      url: timeseries.html
     output: web
     title: mldato
   output: web

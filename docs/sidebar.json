@@ -1,6 +1,7 @@
 {
   "mldato": {
     "Overview": "/",
-    "MLDaTo": "/core"
+    "MLDaTo": "core.html",
+    "Title": "timeseries.html"
   }
 }
