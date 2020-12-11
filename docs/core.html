@@ -33,6 +33,24 @@ nb_path: "nbs\00_core.ipynb"
     
 <div class="cell border-box-sizing code_cell rendered">
 
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;.</span><span class="se">\\</span><span class="s1">data</span><span class="se">\\</span><span class="s1">train.csv&#39;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
 <div class="output_wrapper">
 <div class="output">
 
@@ -181,7 +199,7 @@ nb_path: "nbs\00_core.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="explore_df" class="doc_header"><code>explore_df</code><a href="https://github.com/xanderhorn, ryanfras/mldato/tree/master/mldato/core.py#L17" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>explore_df</code>(<strong><code>df</code></strong>)</p>
+<h4 id="explore_df" class="doc_header"><code>explore_df</code><a href="https://github.com/xanderhorn, ryanfras/mldato/tree/master/mldato/core.py#L12" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>explore_df</code>(<strong><code>df</code></strong>)</p>
 </blockquote>
 <p>A more advanced version of describe for tabular exploratory data analysis. Inlcudes additional information such as,
 missing observations, unique observations, constant feature flagging, all_missing feature flagging, feature types &amp; outlier
@@ -248,7 +266,7 @@ eda = explore_df(df=df)</code></pre>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="format_features" class="doc_header"><code>format_features</code><a href="https://github.com/xanderhorn, ryanfras/mldato/tree/master/mldato/core.py#L90" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>format_features</code>(<strong><code>df</code></strong>)</p>
+<h4 id="format_features" class="doc_header"><code>format_features</code><a href="https://github.com/xanderhorn, ryanfras/mldato/tree/master/mldato/core.py#L85" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>format_features</code>(<strong><code>df</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -306,7 +324,7 @@ eda = explore_df(df=df)</code></pre>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="detect_features" class="doc_header"><code>detect_features</code><a href="https://github.com/xanderhorn, ryanfras/mldato/tree/master/mldato/core.py#L130" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>detect_features</code>(<strong><code>df</code></strong>, <strong><code>y</code></strong>=<em><code>None</code></em>, <strong><code>id</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="detect_features" class="doc_header"><code>detect_features</code><a href="https://github.com/xanderhorn, ryanfras/mldato/tree/master/mldato/core.py#L125" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>detect_features</code>(<strong><code>df</code></strong>, <strong><code>y</code></strong>=<em><code>None</code></em>, <strong><code>id</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 
 </div>
@@ -357,37 +375,81 @@ eda = explore_df(df=df)</code></pre>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;Survived&#39;</span>
+<span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Sex&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;Age&#39;</span><span class="p">,</span> <span class="s1">&#39;SibSp&#39;</span><span class="p">]</span>
+<span class="n">test_percentage</span> <span class="o">=</span> <span class="mf">0.2</span>
+<span class="n">valid_percentage</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">time_based_split_feature</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">seed</span> <span class="o">=</span> <span class="mi">1234</span>
+<span class="n">max_uniques</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="n">n_test</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">test_percentage</span>
+<span class="n">n_valid</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">valid_percentage</span>
+
+<span class="k">if</span> <span class="n">time_based_split_feature</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">time_based_split_feature</span><span class="p">)</span>
+    <span class="n">test</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">tail</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">n_test</span><span class="p">))</span>
+    
+    <span class="n">train</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span> <span class="p">:</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="nb">round</span><span class="p">(</span><span class="n">n_test</span><span class="p">)]</span>
+    <span class="n">valid</span> <span class="o">=</span> <span class="n">train</span><span class="o">.</span><span class="n">tail</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">n_valid</span><span class="p">))</span>
+    
+    <span class="n">train</span> <span class="o">=</span> <span class="n">train</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span> <span class="p">:</span> <span class="n">train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="nb">round</span><span class="p">(</span><span class="n">n_valid</span><span class="p">)]</span>
+
+<span class="k">if</span> <span class="n">y</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    
+    <span class="c1"># Classification outcome</span>
+    <span class="k">if</span> <span class="n">df</span><span class="p">[</span><span class="n">y</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="n">max_uniques</span><span class="p">:</span>
+        
+        <span class="n">df</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">y</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">cat</span><span class="o">.</span><span class="n">codes</span> <span class="c1"># Transform target feature</span>
+        
+        <span class="n">x_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">x</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="n">y</span><span class="p">],</span> <span class="n">stratify</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="n">y</span><span class="p">],</span> 
+                                                        <span class="n">test_size</span><span class="o">=</span><span class="n">test_percentage</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
+        
+        <span class="n">train</span> <span class="o">=</span> <span class="n">x_train</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">train</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_train</span>
+        
+        <span class="n">test</span> <span class="o">=</span> <span class="n">x_test</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">test</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_test</span>
+        
+        <span class="c1"># Caluclate new validation split   </span>
+        <span class="n">valid_percentage</span> <span class="o">=</span> <span class="n">n_valid</span> <span class="o">/</span> <span class="n">x_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">x_train</span><span class="p">,</span> <span class="n">x_valid</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_valid</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="n">x</span><span class="p">],</span> <span class="n">train</span><span class="p">[</span><span class="n">y</span><span class="p">],</span> <span class="n">stratify</span><span class="o">=</span><span class="n">train</span><span class="p">[</span><span class="n">y</span><span class="p">],</span> 
+                                                            <span class="n">test_size</span><span class="o">=</span><span class="n">valid_percentage</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
+
+        <span class="n">train</span> <span class="o">=</span> <span class="n">x_train</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">train</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_train</span>
+
+        <span class="n">valid</span> <span class="o">=</span> <span class="n">x_valid</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">valid</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_valid</span>
+    
+    <span class="c1"># Regression</span>
+    <span class="k">if</span> <span class="n">df</span><span class="p">[</span><span class="n">y</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">max_uniques</span><span class="p">:</span>
+        
+        <span class="n">x_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">x</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="n">y</span><span class="p">],</span> <span class="n">test_size</span><span class="o">=</span><span class="n">test_percentage</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
+        
+        <span class="n">train</span> <span class="o">=</span> <span class="n">x_train</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">train</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_train</span>
+        
+        <span class="n">test</span> <span class="o">=</span> <span class="n">x_test</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">test</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_test</span>
+        
+        <span class="c1"># Caluclate new validation split   </span>
+        <span class="n">valid_percentage</span> <span class="o">=</span> <span class="n">n_valid</span> <span class="o">/</span> <span class="n">x_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">x_train</span><span class="p">,</span> <span class="n">x_valid</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_valid</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="n">x</span><span class="p">],</span> <span class="n">train</span><span class="p">[</span><span class="n">y</span><span class="p">],</span> <span class="n">test_size</span><span class="o">=</span><span class="n">valid_percentage</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
+
+        <span class="n">train</span> <span class="o">=</span> <span class="n">x_train</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">train</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_train</span>
+
+        <span class="n">valid</span> <span class="o">=</span> <span class="n">x_valid</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">valid</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_valid</span>
 </pre></div>
 
     </div>
 </div>
 </div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>Index([&#39;PassengerId&#39;, &#39;Survived&#39;, &#39;Pclass&#39;, &#39;Name&#39;, &#39;Sex&#39;, &#39;Age&#39;, &#39;SibSp&#39;,
-       &#39;Parch&#39;, &#39;Ticket&#39;, &#39;Fare&#39;, &#39;Cabin&#39;, &#39;Embarked&#39;],
-      dtype=&#39;object&#39;)</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
